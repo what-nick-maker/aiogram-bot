@@ -1,10 +1,7 @@
 from os import getenv
 import asyncio
 from aiogram import Bot, Dispatcher
-from aiogram.client import session
-from aiogram.client.session.aiohttp import AiohttpSession
 from dotenv import  load_dotenv
-from aiohttp_socks import ProxyConnector, connector
 from handlers.routes import router, notifier
 
 
@@ -20,13 +17,12 @@ dp.include_router(router)
 
 
 async def main():
-    connector = ProxyConnector.from_url('socks5://127.0.0.1:22308')
-    session = AiohttpSession(proxy='socks5://127.0.0.1:22308')
-    bot = Bot(token=TOKEN, session=session)
+    
+    bot = Bot(token=TOKEN)
 
     asyncio.create_task(notifier(bot))
 
-    print("Start with proxy...")
+    print("Start...")
     await dp.start_polling(bot)
 
 
